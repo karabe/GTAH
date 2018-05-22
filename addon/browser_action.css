@@ -1,0 +1,12 @@
+#tabs {
+  width: 400px;
+}
+
+.tab {
+  width: 100%;
+  height: 60px;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  padding-left: 10px
+}

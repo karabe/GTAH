@@ -10,7 +10,19 @@
   },
 
   "browser_action": {
+    "browser_style": true,
     "default_title": "GTAH",
     "default_popup": "browser_action.html"
-  }
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "karabe000@gmail.com"
+    }
+  },
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ]
 }
