@@ -1,11 +1,16 @@
 {
-    "manifest_version": 2,
-    "name": "GTAH",
-    "version": "0.1",
+  "manifest_version": 2,
+  "name": "GTAH",
+  "version": "0.1",
 
-    "description": "Grouping Tabs And Hiding.",
+  "description": "Grouping Tabs And Hiding.",
 
-    "background": {
-        "scripts": ["background.js"]
-    }
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_title": "GTAH",
+    "default_popup": "browser_action.html"
+  }
 }
