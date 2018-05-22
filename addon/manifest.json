@@ -1,0 +1,11 @@
+{
+    "manifest_version": 2,
+    "name": "GTAH",
+    "version": "0.1",
+
+    "description": "Grouping Tabs And Hiding.",
+
+    "background": {
+        "scripts": ["background.js"]
+    }
+}
