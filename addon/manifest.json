@@ -6,7 +6,11 @@
   "description": "Grouping Tabs And Hiding.",
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "Group.js",
+      "GroupsController.js",
+      "background.js"
+    ]
   },
 
   "browser_action": {
