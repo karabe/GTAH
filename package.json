@@ -5,7 +5,8 @@
   "author": "karabe <karabe000@gmail.com>",
   "devDependencies": {
     "web-ext": "^2.6.0",
-    "webpack": "^4.8.3"
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
   },
   "scripts": {
     "firefox": "web-ext run --source-dir ./addon/"
