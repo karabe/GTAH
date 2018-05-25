@@ -1,18 +1,26 @@
-import GroupsController from './GroupsController'
+import GroupRepository from './GroupRepository'
 
-let controller = new GroupsController()
+(async () => {
+  const repo = new GroupRepository(),
+        groups = await repo.getAll(),
+        addListener = (tab) => {
+          groups.add(tab)
+          repo.save(groups)
+        },
+        removeListener = (tabId) => {
+          groups.remove(tabId)
+          repo.save(groups)
+        },
+        updateListener = (tabId, changeInfo, tab) => {
+          groups.update(tab)
+          repo.save(groups)
+        }
 
-browser.tabs.query({currentWindow: true})
-  .then((tabs) => {
-    controller.init(tabs)
-  })
+  browser.tabs.onCreated.addListener(addListener)
+  browser.tabs.onAttached.addListener(addListener)
 
-browser.tabs.onCreated.addListener((tab) => { controller.add(tab) })
-browser.tabs.onAttached.addListener((tab) => { controller.add(tab) })
+  browser.tabs.onRemoved.addListener(removeListener)
+  browser.tabs.onDetached.addListener(removeListener)
 
-browser.tabs.onRemoved.addListener((tabId) => { controller.remove(tabId) })
-browser.tabs.onDetached.addListener((tabId) => { controller.remove(tabId) })
-
-browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  controller.update(tab)
-})
+  browser.tabs.onUpdated.addListener(updateListener)
+})()

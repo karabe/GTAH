@@ -1,7 +1,7 @@
 export default class {
-  constructor() {
-    this.title = 'default'
-    this.tabs = []
+  constructor(title = 'default', tabs = []) {
+    this.title = title
+    this.tabs = tabs
   }
 
   conv(tab) {

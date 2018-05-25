@@ -1,6 +1,9 @@
-browser.storage.sync.get('groups')
-  .then((results) => {
-    const groups = results.groups
+import GroupRepository from './GroupRepository'
+
+(async () => {
+  const repo = new GroupRepository(),
+        groups = await repo.getAll()
+
     groups.forEach((group) => {
       const $groups = document.getElementById('groups'),
             $group = document.createElement('div')
@@ -19,4 +22,4 @@ browser.storage.sync.get('groups')
         $group.appendChild($tab)
       })
     })
-  })
+})()
