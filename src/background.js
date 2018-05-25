@@ -1,3 +1,5 @@
+import GroupsController from './GroupsController'
+
 let controller = new GroupsController()
 
 browser.tabs.query({currentWindow: true})

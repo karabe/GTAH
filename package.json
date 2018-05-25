@@ -9,6 +9,8 @@
     "webpack-cli": "^2.1.4"
   },
   "scripts": {
-    "firefox": "web-ext run --source-dir ./addon/"
+    "start": "web-ext run --source-dir ./addon/",
+    "watch": "webpack --watch",
+    "prod": "webpack --mode production"
   }
 }

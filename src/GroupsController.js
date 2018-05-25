@@ -1,4 +1,6 @@
-class GroupsController {
+import Group from './Group'
+
+export default class {
   constructor() {
     this.groups = []
   }
@@ -34,6 +36,6 @@ class GroupsController {
   }
 
   getAll() {
-    
+
   }
 }

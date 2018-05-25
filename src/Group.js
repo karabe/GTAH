@@ -1,4 +1,4 @@
-class Group {
+export default class {
   constructor() {
     this.title = 'default'
     this.tabs = []

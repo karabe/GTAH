@@ -7,8 +7,6 @@
 
   "background": {
     "scripts": [
-      "Group.js",
-      "GroupsController.js",
       "background.js"
     ]
   },
