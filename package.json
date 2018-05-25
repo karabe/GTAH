@@ -4,7 +4,8 @@
   "repository": "git@github.com:karabe/GTAH.git",
   "author": "karabe <karabe000@gmail.com>",
   "devDependencies": {
-    "web-ext": "^2.6.0"
+    "web-ext": "^2.6.0",
+    "webpack": "^4.8.3"
   },
   "scripts": {
     "firefox": "web-ext run --source-dir ./addon/"
