@@ -12,5 +12,8 @@
     "start": "web-ext run --source-dir ./addon/",
     "watch": "webpack --watch",
     "prod": "webpack --mode production"
+  },
+  "dependencies": {
+    "uuid": "^3.2.1"
   }
 }
