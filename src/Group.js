@@ -1,7 +1,10 @@
+import uuidv4 from 'uuid/v4';
+
 export default class {
-  constructor(title = 'default', tabs = []) {
-    this.title = title
-    this.tabs = tabs
+  constructor(group = {}) {
+    this.title = group.title || 'Default'
+    this.tabs = group.tabs || []
+    this.uuid = group.uuid || uuidv4()
   }
 
   conv(tab) {

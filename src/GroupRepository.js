@@ -8,7 +8,7 @@ export default class {
     let groups = new GroupArray()
     if (results.groups) {
       results.groups.forEach((group) => {
-        groups.push(new Group(group.title, group.tabs))
+        groups.push(new Group(group))
       })
     } else {
       const tabs = await browser.tabs.query({currentWindow: true}),
