@@ -3,7 +3,7 @@ import Group from './Group'
 
 export default class {
   async getAll() {
-    const results = await browser.storage.sync.get('groups')
+    const results = await browser.storage.local.get('groups')
 
     let groups = new GroupArray()
     if (results.groups) {
@@ -22,6 +22,6 @@ export default class {
 
   save(groups) {
     const conv = JSON.parse(JSON.stringify(groups))
-    browser.storage.sync.set({groups: conv})
+    browser.storage.local.set({groups: conv})
   }
 }
