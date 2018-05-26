@@ -18,10 +18,31 @@ export default class {
 
   remove(tabId) {
     this.current.remove(tabId)
+
+    if (this.current.isEmpty()) {
+      this.groups.splice(this.currentIndex, 1)
+    }
   }
 
   update(tab) {
-    this.current.update(tab)
+    this.groups.forEach((group) => {
+      group.update(tab)
+    })
+  }
+
+  async activated(tabId) {
+    for (const [index, group] of this.groups.entries()) {
+      this.update({
+        id: tabId,
+        active: true
+      })
+
+      if (group.exists(tabId) &&
+          this.currentIndex !== index) {
+        this.currentIndex = index
+        await group.show()
+      }
+    }
   }
 
   push(group) {
@@ -39,9 +60,9 @@ export default class {
   }
 
   async active(index) {
+    const currentIndex = this.currentIndex
     await this.groups[index].show()
     await this.groups[index].active()
-    await this.current.hide()
-    this.currentIndex = index
+    await this.groups[currentIndex].hide()
   }
 }

@@ -19,6 +19,10 @@ export default class {
     this.tabs.splice(index, 1)
   }
 
+  isEmpty() {
+    return this.tabs.length === 0
+  }
+
   update(tab) {
     const index = this.tabs.findIndex((ctab) => {
       return ctab.id === tab.id
@@ -27,7 +31,13 @@ export default class {
     if (index === -1) return
 
     if (tab.active) this.activeTabId = tab.id
-    this.tabs[index] = Object.assign(tab)
+    Object.assign(this.tabs[index], tab)
+  }
+
+  exists(tabId) {
+    return this.tabs.some((tab) => {
+      return tab.id === tabId
+    })
   }
 
   async show() {

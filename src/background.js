@@ -16,11 +16,9 @@ import Group from './Group'
           data.update(await repo.hydrate(tab))
           repo.save(data)
         },
-        activatedListener = (activeInfo) => {
-          data.update({
-            id: activeInfo.tabId,
-            active: true
-          })
+        activatedListener = async (activeInfo) => {
+          await data.activated(activeInfo.tabId)
+          repo.save(data)
         }
 
   browser.tabs.onCreated.addListener(createdListener)

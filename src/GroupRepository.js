@@ -21,9 +21,9 @@ export default class {
     return groups
   }
 
-  save(groups) {
-    const conv = JSON.parse(JSON.stringify(groups))
-    browser.storage.local.set({data: conv})
+  save(data) {
+    const plain = JSON.parse(JSON.stringify(data))
+    browser.storage.local.set({data: plain})
   }
 
   async hydrate(tab) {
@@ -35,6 +35,7 @@ export default class {
 
     return {
       id: tab.id,
+      active: tab.active,
       title: tab.title,
       url: tab.url,
       uuid: uuid
