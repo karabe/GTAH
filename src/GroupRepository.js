@@ -1,15 +1,15 @@
-import GroupArray from './GroupArray'
+import GroupData from './GroupData'
 import Group from './Group'
 
 export default class {
   async getAll() {
-    const results = await browser.storage.local.get('groups')
+    const results = await browser.storage.local.get('data')
 
-    if (results.groups) {
-      return this.hydrate(results.groups)
+    if (results.data) {
+      return new GroupData(results.data)
     }
 
-    const groups = new GroupArray()
+    const groups = new GroupData()
     const tabs = await browser.tabs.query({currentWindow: true}),
           group = new Group()
     group.addTabs(tabs)
@@ -20,14 +20,6 @@ export default class {
 
   save(groups) {
     const conv = JSON.parse(JSON.stringify(groups))
-    browser.storage.local.set({groups: conv})
-  }
-
-  hydrate(groups) {
-    const groupArray = new GroupArray
-    groups.forEach((group) => {
-      groupArray.push(new Group(group))
-    })
-    return groupArray
+    browser.storage.local.set({data: conv})
   }
 }

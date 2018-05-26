@@ -1,30 +1,38 @@
 import GroupRepository from './GroupRepository'
-import Group from './Group'
-
-const repo = new GroupRepository()
+import GroupData from './GroupData'
 
 export default {
   data() {
     return {
-      groups: []
+      data: {}
     }
   },
   created() {
     const repo = new GroupRepository()
     repo.getAll()
-      .then((groups) => {
-        this.groups = groups
+      .then((data) => {
+        this.data = data
       })
 
     browser.storage.onChanged.addListener((changes) => {
-      if (changes.groups) {
-        this.groups = repo.hydrate(changes.groups.newValue)
+      if (changes.data) {
+        this.data = changes.data.newValue
       }
     })
   },
   methods: {
     async addNewGroup() {
       browser.runtime.sendMessage({method: 'addNewGroup'})
+    },
+    changeGroup(index) {
+      if (this.isActive(index)) return
+
+      browser.runtime.sendMessage({method: 'changeGroup', args: [index]})
+    },
+    isActive(index) {
+      const groups = new GroupData(this.data)
+
+      return groups.isActive(index)
     }
   }
 }

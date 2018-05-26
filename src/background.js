@@ -3,18 +3,18 @@ import Group from './Group'
 
 (async () => {
   const repo = new GroupRepository(),
-        groups = await repo.getAll(),
+        data = await repo.getAll(),
         addListener = (tab) => {
-          groups.add(tab)
-          repo.save(groups)
+          data.add(tab)
+          repo.save(data)
         },
         removeListener = (tabId) => {
-          groups.remove(tabId)
-          repo.save(groups)
+          data.remove(tabId)
+          repo.save(data)
         },
         updateListener = (tabId, changeInfo, tab) => {
-          groups.update(tab)
-          repo.save(groups)
+          data.update(tab)
+          repo.save(data)
         }
 
   browser.tabs.onCreated.addListener(addListener)
@@ -32,13 +32,17 @@ import Group from './Group'
       const tab = await browser.tabs.create({active: false})
       browser.tabs.hide(tab.id)
 
-      groups.addNewGroup(tab)
-      repo.save(groups)
+      data.addNewGroup(tab)
+      repo.save(data)
 
       browser.tabs.onCreated.addListener(addListener)
+    },
+    async changeGroup(index) {
+      await data.active(index)
+      repo.save(data)
     }
   }
   browser.runtime.onMessage.addListener((message) => {
-    methods[message.method]()
+    methods[message.method].apply(undefined, message.args || [])
   })
 })()

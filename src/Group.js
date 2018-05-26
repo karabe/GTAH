@@ -5,6 +5,7 @@ export default class {
     this.title = group.title || 'Default'
     this.tabs = group.tabs || []
     this.uuid = group.uuid || uuidv4()
+    this.activeTabId = group.activeTabId || null
   }
 
   conv(tab) {
@@ -38,11 +39,39 @@ export default class {
     if (index === -1) return
 
     this.tabs[index] = this.conv(tab)
+
+    if (tab.active) {
+      this.activeTabId = tab.id
+    }
   }
 
   addTabs(tabs) {
     tabs.forEach((tab) => {
       this.add(tab)
     })
+  }
+
+  async show() {
+    const tabIds = this.tabs.map((tab) => {
+      return tab.id
+    })
+
+    await browser.tabs.show(tabIds)
+  }
+
+  async active() {
+    const tab = this.tabs.find((tab) => {
+      return tab.id === this.activeTabId
+    }) || this.tabs[0]
+
+    await browser.tabs.update(tab.id, {active: true})
+  }
+
+  async hide() {
+    const tabIds = this.tabs.map((tab) => {
+      return tab.id
+    })
+
+    await browser.tabs.hide(tabIds)
   }
 }
