@@ -1,11 +1,16 @@
 <template>
   <div id="groups">
     <button @click="addNewGroup">＋</button>
-    <group-vue
-      v-for="group in groups"
-      :key="group.uuid"
-      :group="group"
-    ></group-vue>
+    <div class="group" v-for="(group, index) in groups">
+      <div class="group-title" @click="changeGroup(index)">
+        {{ group.title }}
+      </div>
+      <div class="tabs">
+        <div class="tab" v-for="tab in group.tabs" :key="tab.id">
+          {{ tab.title }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

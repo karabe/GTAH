@@ -1,5 +1,4 @@
 import GroupRepository from './GroupRepository'
-import GroupVue from './Group.vue'
 import Group from './Group'
 
 const repo = new GroupRepository()
@@ -18,7 +17,6 @@ export default {
       })
 
     browser.storage.onChanged.addListener((changes) => {
-      console.info(changes)
       if (changes.groups) {
         this.groups = repo.hydrate(changes.groups.newValue)
       }
@@ -28,6 +26,5 @@ export default {
     async addNewGroup() {
       browser.runtime.sendMessage({method: 'addNewGroup'})
     }
-  },
-  components: { GroupVue }
+  }
 }
