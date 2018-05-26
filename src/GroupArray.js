@@ -16,4 +16,10 @@ export default class extends Array {
   update(tab) {
     this.current.update(tab)
   }
+
+  addNewGroup(tab) {
+    const group = new Group()
+    group.add(tab)
+    this.push(group)
+  }
 }

@@ -29,12 +29,10 @@ import Group from './Group'
     async addNewGroup() {
       browser.tabs.onCreated.removeListener(addListener)
 
-      const tab = await browser.tabs.create({active: false}),
-            group = new Group()
+      const tab = await browser.tabs.create({active: false})
       browser.tabs.hide(tab.id)
 
-      group.add(tab)
-      groups.push(group)
+      groups.addNewGroup(tab)
       repo.save(groups)
 
       browser.tabs.onCreated.addListener(addListener)
