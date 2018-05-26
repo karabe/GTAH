@@ -26,11 +26,8 @@ export default class {
 
     if (index === -1) return
 
-    this.tabs[index] = tab
-
-    if (tab.active) {
-      this.activeTabId = tab.id
-    }
+    if (tab.active) this.activeTabId = tab.id
+    this.tabs[index] = Object.assign(tab)
   }
 
   async show() {
