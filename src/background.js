@@ -1,4 +1,5 @@
 import GroupRepository from './GroupRepository'
+import Group from './Group'
 
 (async () => {
   const repo = new GroupRepository(),
@@ -23,4 +24,23 @@ import GroupRepository from './GroupRepository'
   browser.tabs.onDetached.addListener(removeListener)
 
   browser.tabs.onUpdated.addListener(updateListener)
+
+  const methods = {
+    async addNewGroup() {
+      browser.tabs.onCreated.removeListener(addListener)
+
+      const tab = await browser.tabs.create({active: false}),
+            group = new Group()
+      browser.tabs.hide(tab.id)
+
+      group.add(tab)
+      groups.push(group)
+      repo.save(groups)
+
+      browser.tabs.onCreated.addListener(addListener)
+    }
+  }
+  browser.runtime.onMessage.addListener((message) => {
+    methods[message.method]()
+  })
 })()

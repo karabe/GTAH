@@ -1,5 +1,6 @@
 <template>
   <div id="groups">
+    <button @click="addNewGroup">＋</button>
     <group-vue
       v-for="group in groups"
       :key="group.uuid"
@@ -8,24 +9,4 @@
   </div>
 </template>
 
-<script>
-  import GroupRepository from './GroupRepository'
-  import GroupVue from './Group.vue'
-
-  export default {
-    data() {
-      return {
-        groups: []
-      }
-    },
-    created() {
-      const repo = new GroupRepository()
-      repo
-        .getAll()
-        .then((groups) => {
-          this.groups = groups
-        })
-    },
-    components: { GroupVue }
-  }
-</script>
+<script src="./Main.vue.js"></script>
