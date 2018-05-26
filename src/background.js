@@ -4,16 +4,16 @@ import Group from './Group'
 (async () => {
   const repo = new GroupRepository(),
         data = await repo.getAll(),
-        addListener = (tab) => {
-          data.add(tab)
+        addListener = async (tab) => {
+          data.add(await repo.hydrate(tab))
           repo.save(data)
         },
         removeListener = (tabId) => {
           data.remove(tabId)
           repo.save(data)
         },
-        updateListener = (tabId, changeInfo, tab) => {
-          data.update(tab)
+        updateListener = async (tabId, changeInfo, tab) => {
+          data.update(await repo.hydrate(tab))
           repo.save(data)
         }
 
@@ -32,7 +32,7 @@ import Group from './Group'
       const tab = await browser.tabs.create({active: false})
       browser.tabs.hide(tab.id)
 
-      data.addNewGroup(tab)
+      data.addNewGroup(await repo.hydrate(tab))
       repo.save(data)
 
       browser.tabs.onCreated.addListener(addListener)
