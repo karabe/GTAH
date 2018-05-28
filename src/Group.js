@@ -63,4 +63,8 @@ export default class {
 
     await browser.tabs.hide(tabIds)
   }
+
+  updateTitle(title) {
+    this.title = title
+  }
 }

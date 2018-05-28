@@ -41,6 +41,10 @@ import Group from './Group'
     async changeGroup(index) {
       await data.active(index)
       repo.save(data)
+    },
+    updateTitle(index, title) {
+      data.updateTitle(index, title)
+      repo.save(data)
     }
   }
   browser.runtime.onMessage.addListener((message) => {

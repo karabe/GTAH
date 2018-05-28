@@ -1,5 +1,6 @@
 import GroupRepository from './GroupRepository'
 import GroupData from './GroupData'
+import GroupVue from './Group.vue'
 
 export default {
   data() {
@@ -24,15 +25,13 @@ export default {
     async addNewGroup() {
       browser.runtime.sendMessage({method: 'addNewGroup'})
     },
-    changeGroup(index) {
-      if (this.isActive(index)) return
-
-      browser.runtime.sendMessage({method: 'changeGroup', args: [index]})
-    },
     isActive(index) {
       const groups = new GroupData(this.data)
 
       return groups.isActive(index)
     }
+  },
+  components: {
+    Group: GroupVue
   }
 }

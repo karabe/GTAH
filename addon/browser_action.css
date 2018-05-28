@@ -2,13 +2,17 @@ body {
   width: 400px;
 }
 
-.group-title {
+.group-head {
   height: 50px;
   background-color: skyblue;
   display: flex;
   align-items: center;
   padding-left: 10px;
   cursor: pointer;
+}
+
+.group-title {
+  flex: 1 0;
 }
 
 .tab {

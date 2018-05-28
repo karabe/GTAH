@@ -65,4 +65,8 @@ export default class {
     await this.groups[index].active()
     await this.groups[currentIndex].hide()
   }
+
+  updateTitle(index, title) {
+    this.groups[index].updateTitle(title)
+  }
 }
