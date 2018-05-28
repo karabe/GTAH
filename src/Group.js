@@ -1,3 +1,5 @@
+import GroupRepository from './GroupRepository'
+
 export default class {
   constructor(group = {}) {
     this.title = group.title || 'Default'
@@ -74,5 +76,22 @@ export default class {
     })
 
     await browser.tabs.remove(tabIds)
+  }
+
+  async refresh() {
+    const repo = new GroupRepository()
+
+    for (let [index, tab] of this.tabs.entries()) {
+      tab = await browser.tabs.get(tab.id)
+      tab = await repo.hydrate(tab)
+
+      Object.assign(this.tabs[index], tab)
+    }
+  }
+
+  sortByIndex() {
+    this.tabs = this.tabs.sort((tabA, tabB) => {
+      return tabA.index - tabB.index
+    })
   }
 }

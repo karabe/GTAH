@@ -74,4 +74,13 @@ export default class {
     await this.groups[index].delete()
     this.groups.splice(index, 1)
   }
+
+  async refresh(tabId) {
+    const group = this.groups.find((group) => {
+      return group.exists(tabId)
+    })
+
+    await group.refresh()
+    group.sortByIndex()
+  }
 }

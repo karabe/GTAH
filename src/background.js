@@ -19,12 +19,17 @@ import Group from './Group'
         activatedListener = async (activeInfo) => {
           await data.activated(activeInfo.tabId)
           repo.save(data)
+        },
+        movedListener = async (tabId) => {
+          await data.refresh(tabId)
+          repo.save(data)
         }
 
   browser.tabs.onCreated.addListener(createdListener)
   browser.tabs.onRemoved.addListener(removedListener)
   browser.tabs.onUpdated.addListener(updatedListener)
   browser.tabs.onActivated.addListener(activatedListener)
+  browser.tabs.onMoved.addListener(movedListener)
 
   const methods = {
     async addNewGroup() {

@@ -35,6 +35,7 @@ export default class {
 
     return {
       id: tab.id,
+      index: tab.index,
       active: tab.active,
       title: tab.title,
       url: tab.url,
