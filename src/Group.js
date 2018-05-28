@@ -67,4 +67,12 @@ export default class {
   updateTitle(title) {
     this.title = title
   }
+
+  async delete() {
+    const tabIds = this.tabs.map((tab) => {
+      return tab.id
+    })
+
+    await browser.tabs.remove(tabIds)
+  }
 }

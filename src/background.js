@@ -45,6 +45,14 @@ import Group from './Group'
     updateTitle(index, title) {
       data.updateTitle(index, title)
       repo.save(data)
+    },
+    async deleteGroup(index) {
+      browser.tabs.onRemoved.removeListener(removedListener)
+
+      await data.deleteGroup(index)
+      repo.save(data)
+
+      browser.tabs.onRemoved.addListener(removedListener)
     }
   }
   browser.runtime.onMessage.addListener((message) => {

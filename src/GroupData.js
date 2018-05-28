@@ -69,4 +69,9 @@ export default class {
   updateTitle(index, title) {
     this.groups[index].updateTitle(title)
   }
+
+  async deleteGroup(index) {
+    await this.groups[index].delete()
+    this.groups.splice(index, 1)
+  }
 }

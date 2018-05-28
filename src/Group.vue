@@ -1,12 +1,12 @@
 <template>
   <div class="group">
-    <div class="group-head" @click="changeGroup" v-show="!editing">
+    <div class="group-head" @click="changeGroup" v-show="!editing && !deleting">
       <div class="group-title">
         {{ group.title }} {{ isActive ? '*' : '' }}
       </div>
       <div class="buttons">
-        <button @click="editTitle">✎</button>
-        <button>✗</button>
+        <button @click.stop="editTitle">✎</button>
+        <button @click.stop="confirmDeleteGroup">✗</button>
       </div>
     </div>
     <div class="group-head" v-show="editing">
@@ -14,6 +14,15 @@
         <input type="text" :value="group.title" ref="titleInput" @blur="updateTitle" @keypress.enter="updateTitle">
       </div>
       <div class="buttons">
+      </div>
+    </div>
+    <div class="group-head" v-show="deleting">
+      <div class="group-title">
+        Are you sure?
+      </div>
+      <div class="buttons">
+        <button @click="deleteGroup">✓</button>
+        <button @click="cancelDeleting">✗</button>
       </div>
     </div>
     <div class="tabs">

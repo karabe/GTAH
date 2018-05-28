@@ -1,7 +1,8 @@
 export default {
   data() {
     return {
-      editing: false
+      editing: false,
+      deleting: false
     }
   },
   props: {
@@ -34,6 +35,16 @@ export default {
       const title = this.$refs.titleInput.value
       browser.runtime.sendMessage({method: 'updateTitle', args: [this.index, title]})
       this.editing = false
+    },
+    confirmDeleteGroup() {
+      this.deleting = true
+    },
+    deleteGroup() {
+      browser.runtime.sendMessage({method: 'deleteGroup', args: [this.index]})
+      this.deleting = false
+    },
+    cancelDeleting() {
+      this.deleting = false
     }
   }
 }
