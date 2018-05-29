@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "web-ext run --source-dir ./addon/",
+    "test": "jest",
     "watch": "webpack --watch",
     "prod": "webpack --mode production"
   },
