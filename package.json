@@ -4,8 +4,11 @@
   "repository": "git@github.com:karabe/GTAH.git",
   "author": "karabe <karabe000@gmail.com>",
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.16",
+    "babel-jest": "^23.0.1",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.0.1",
+    "vue-jest": "^2.6.0",
     "web-ext": "^2.6.0",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4"
