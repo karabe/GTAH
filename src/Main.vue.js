@@ -21,7 +21,7 @@ export default {
     })
   },
   methods: {
-    async addNewGroup() {
+    addNewGroup() {
       browser.runtime.sendMessage({method: 'addNewGroup'})
     },
     isActive(index) {
