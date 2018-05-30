@@ -10,15 +10,13 @@ export default class {
       return new PopupData(results.data)
     }
 
-    const groups = new PopupData()
-    const tabs = await browser.tabs.query({currentWindow: true}),
-          group = new Group()
+    const data = new PopupData()
+    const tabs = await browser.tabs.query({currentWindow: true})
     for (const tab of tabs) {
-      group.add(await this.hydrate(tab))
+      data.add(await this.hydrate(tab))
     }
-    groups.push(group)
 
-    return groups
+    return data
   }
 
   save(data) {

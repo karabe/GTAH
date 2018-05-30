@@ -44,8 +44,12 @@ import Group from './Group'
       browser.tabs.onCreated.addListener(createdListener)
     },
     async changeGroup(index) {
+      browser.tabs.onActivated.removeListener(activatedListener)
+
       await data.active(index)
       repo.save(data)
+
+      browser.tabs.onActivated.addListener(activatedListener)
     },
     updateTitle(index, title) {
       data.updateTitle(index, title)

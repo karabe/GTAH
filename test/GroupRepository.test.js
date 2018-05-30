@@ -46,6 +46,7 @@ describe('GroupRepository', () => {
       expect(browser.tabs.query).toBeCalledWith({currentWindow: true})
       expect(repo.hydrate).toBeCalledWith({id: 1})
       expect(data).toBeInstanceOf(PopupData)
+      expect(data.groups).toHaveLength(1)
     })
   })
 

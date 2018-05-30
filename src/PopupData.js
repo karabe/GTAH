@@ -1,11 +1,16 @@
 import Group from './Group'
 
 export default class {
-  constructor(data = {groups: [], currentIndex: 0}) {
-    this.groups = data.groups.map((group) => {
-      return new Group(group)
-    })
-    this.currentIndex = data.currentIndex
+  constructor(data) {
+    if (data) {
+      this.groups = data.groups.map((group) => {
+        return new Group(group)
+      })
+      this.currentIndex = data.currentIndex
+    } else {
+      this.groups = [new Group]
+      this.currentIndex = 0
+    }
   }
 
   get current() {
@@ -45,14 +50,10 @@ export default class {
     }
   }
 
-  push(group) {
-    this.groups.push(group)
-  }
-
   addNewGroup(tab) {
     const group = new Group()
     group.add(tab)
-    this.push(group)
+    this.groups.push(group)
   }
 
   isActive(index) {
@@ -60,10 +61,10 @@ export default class {
   }
 
   async active(index) {
-    const currentIndex = this.currentIndex
     await this.groups[index].show()
     await this.groups[index].active()
-    await this.groups[currentIndex].hide()
+    await this.current.hide()
+    this.currentIndex = index
   }
 
   updateTitle(index, title) {
