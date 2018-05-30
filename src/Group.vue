@@ -1,6 +1,6 @@
 <template>
   <div class="group">
-    <div class="group-head" @click="changeGroup" v-show="!editing && !deleting">
+    <div class="group-head normal" @click="changeGroup" v-show="!editing && !deleting">
       <div class="group-title">
         {{ group.title }} {{ isActive ? '*' : '' }}
       </div>
@@ -9,14 +9,14 @@
         <button @click.stop="confirmDeleteGroup">✗</button>
       </div>
     </div>
-    <div class="group-head" v-show="editing">
+    <div class="group-head edit-title" v-show="editing">
       <div class="group-title">
         <input type="text" :value="group.title" ref="titleInput" @blur="updateTitle" @keypress.enter="updateTitle">
       </div>
       <div class="buttons">
       </div>
     </div>
-    <div class="group-head" v-show="deleting">
+    <div class="group-head confirm-delete" v-show="deleting">
       <div class="group-title">
         Are you sure?
       </div>
