@@ -1,5 +1,5 @@
 import GroupRepository from '../src/GroupRepository'
-import GroupData from '../src/GroupData'
+import PopupData from '../src/PopupData'
 
 describe('GroupRepository', () => {
   let repo
@@ -33,7 +33,7 @@ describe('GroupRepository', () => {
         }
       })
       const data = await repo.getAll()
-      expect(data).toBeInstanceOf(GroupData)
+      expect(data).toBeInstanceOf(PopupData)
     })
 
     test('data not exists', async () => {
@@ -45,7 +45,7 @@ describe('GroupRepository', () => {
 
       expect(browser.tabs.query).toBeCalledWith({currentWindow: true})
       expect(repo.hydrate).toBeCalledWith({id: 1})
-      expect(data).toBeInstanceOf(GroupData)
+      expect(data).toBeInstanceOf(PopupData)
     })
   })
 

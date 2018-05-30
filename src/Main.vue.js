@@ -1,5 +1,4 @@
 import GroupRepository from './GroupRepository'
-import GroupData from './GroupData'
 import GroupVue from './Group.vue'
 
 export default {
@@ -26,7 +25,7 @@ export default {
       browser.runtime.sendMessage({method: 'addNewGroup'})
     },
     isActive(index) {
-      const groups = new GroupData(this.data)
+      const groups = new PopupData(this.data)
 
       return groups.isActive(index)
     }

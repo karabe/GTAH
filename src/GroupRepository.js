@@ -1,4 +1,4 @@
-import GroupData from './GroupData'
+import PopupData from './PopupData'
 import Group from './Group'
 import uuidv4 from 'uuid/v4';
 
@@ -7,10 +7,10 @@ export default class {
     const results = await browser.storage.local.get('data')
 
     if (results.data) {
-      return new GroupData(results.data)
+      return new PopupData(results.data)
     }
 
-    const groups = new GroupData()
+    const groups = new PopupData()
     const tabs = await browser.tabs.query({currentWindow: true}),
           group = new Group()
     for (const tab of tabs) {
