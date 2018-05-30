@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "web-ext run --source-dir ./addon/",
-    "test": "jest",
+    "test": "jest --watch",
     "watch": "webpack --watch",
     "prod": "webpack --mode production"
   },
@@ -38,6 +38,10 @@
     "collectCoverageFrom": [
       "src/*.{js,vue}",
       "!src/*.vue.js"
+    ],
+    "coverageReporters": [
+      "html",
+      "text"
     ]
   }
 }
