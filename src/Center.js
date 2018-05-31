@@ -24,6 +24,9 @@ export default class {
       moved: async (tabId) => {
         await this.data.refresh(tabId)
         this.repo.save(this.data)
+      },
+      message: (message) => {
+        this.methods[message.method].apply(undefined, message.args || [])
       }
     }
 
@@ -73,8 +76,6 @@ export default class {
     browser.tabs.onActivated.addListener(this.listeners.activated)
     browser.tabs.onMoved.addListener(this.listeners.moved)
 
-    browser.runtime.onMessage.addListener((message) => {
-      this.methods[message.method].apply(undefined, message.args || [])
-    })
+    browser.runtime.onMessage.addListener(this.listeners.message)
   }
 }
