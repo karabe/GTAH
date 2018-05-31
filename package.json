@@ -37,6 +37,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/*.{js,vue}",
+      "!src/browser_action.js",
+      "!src/background.js",
       "!src/*.vue.js"
     ],
     "coverageReporters": [
