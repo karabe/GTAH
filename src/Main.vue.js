@@ -1,4 +1,5 @@
 import GroupRepository from './GroupRepository'
+import PopupData from './PopupData'
 import GroupVue from './Group.vue'
 
 export default {
