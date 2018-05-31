@@ -48,7 +48,7 @@ describe('MainVue', () => {
       wrapper.vm.addNewGroup()
 
       expect(browser.runtime.sendMessage).toBeCalledWith({method: 'addNewGroup'})
-      expect(browser.storage.onChanged.addListener).toBeCalled()
+      expect(browser.storage.onChanged.addListener).toBeCalledWith(wrapper.vm.changed)
       expect(wrapper.vm.data).toBe(mockData)
     })
   })
@@ -58,6 +58,27 @@ describe('MainVue', () => {
       const recieved = wrapper.vm.isActive(0)
 
       expect(recieved).toBeTruthy()
+    })
+  })
+
+  describe('changed', () => {
+    test('main', () => {
+      const changes = {
+        data: {
+          newValue: {
+            group: {
+              title: 'Test',
+              tabs: [{id: 1, title: 'TestTab'}]
+            },
+            index: 0,
+            isActive: false
+          }
+        }
+      }
+
+      wrapper.vm.changed(changes)
+
+      expect(wrapper.vm.data).toBe(changes.data.newValue)
     })
   })
 })

@@ -15,11 +15,7 @@ export default {
         this.data = data
       })
 
-    browser.storage.onChanged.addListener((changes) => {
-      if (changes.data) {
-        this.data = changes.data.newValue
-      }
-    })
+    browser.storage.onChanged.addListener(this.changed)
   },
   methods: {
     addNewGroup() {
@@ -29,6 +25,11 @@ export default {
       const groups = new PopupData(this.data)
 
       return groups.isActive(index)
+    },
+    changed(changes) {
+      if (changes.data) {
+        this.data = changes.data.newValue
+      }
     }
   },
   components: {
