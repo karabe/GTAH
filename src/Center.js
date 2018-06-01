@@ -25,8 +25,8 @@ export default class {
         await this.data.refresh(tabId)
         this.repo.save(this.data)
       },
-      message: (message) => {
-        this.methods[message.method].apply(undefined, message.args || [])
+      message: async (message) => {
+        await this.methods[message.method].apply(undefined, message.args || [])
       }
     }
 

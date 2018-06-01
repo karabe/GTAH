@@ -1,10 +1,7 @@
 import Center from '../src/Center'
 
 describe('Center', () => {
-  let center, repo
-  const data = {
-    add: jest.fn()
-  }
+  let center, repo, data = {}
 
   beforeEach(() => {
     global.browser = {
@@ -69,15 +66,69 @@ describe('Center', () => {
     })
   })
 
-  describe('listeners.created', () => {
-    test('main', async () => {
-      const tab = {}
+  describe('tabs listeners', () => {
+    afterEach(() => {
+      expect(repo.save).toBeCalledWith(data)
+    })
+
+    test('created', async () => {
+      const tab = {id: 1}
+      data = {
+        add: jest.fn()
+      }
 
       await center.init()
       await center.listeners.created(tab)
 
       expect(data.add).toBeCalledWith(tab)
-      expect(repo.save).toBeCalledWith(data)
+    })
+
+    test('removed', async () => {
+      const tabId = 1
+      data = {
+        remove: jest.fn()
+      }
+
+      await center.init()
+      center.listeners.removed(tabId)
+
+      expect(data.remove).toBeCalledWith(tabId)
+    })
+
+    test('updated', async () => {
+      const tab = {id: 1}
+      data = {
+        update: jest.fn()
+      }
+
+      await center.init()
+      await center.listeners.updated(tab.id, {}, tab)
+
+      expect(data.update).toBeCalledWith(tab)
+    })
+
+    test('activated', async () => {
+      const activeInfo = {tabId: 1}
+      data = {
+        activated: jest.fn()
+      }
+
+      await center.init()
+      await center.listeners.activated(activeInfo)
+
+      expect(data.activated).toBeCalledWith(activeInfo.tabId)
+    })
+
+    test('moved', async () => {
+      const tabId = 1
+      data = {
+        refresh: jest.fn()
+      }
+
+      await center.init()
+      await center.listeners.moved(tabId)
+
+      expect(data.refresh).toBeCalledWith(tabId)
     })
   })
 })
