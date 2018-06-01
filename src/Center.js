@@ -2,8 +2,8 @@ import GroupRepository from './GroupRepository'
 import Converter from './Converter'
 
 export default class {
-  constructor(repo) {
-    this.repo = repo
+  constructor() {
+    this.repo = new GroupRepository
     this.converter = new Converter
 
     this.listeners = {
