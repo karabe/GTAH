@@ -1,10 +1,13 @@
 import GroupRepository from './GroupRepository'
+import Converter from './Converter'
 
 export default class {
   constructor(group = {}) {
     this.title = group.title || 'Default'
     this.tabs = group.tabs || []
     this.activeTabId = group.activeTabId || null
+
+    this.converter = new Converter
   }
 
   add(tab) {
@@ -83,7 +86,7 @@ export default class {
 
     for (let [index, tab] of this.tabs.entries()) {
       tab = await browser.tabs.get(tab.id)
-      tab = await repo.hydrate(tab)
+      tab = await this.converter.convertTab(tab)
 
       Object.assign(this.tabs[index], tab)
     }

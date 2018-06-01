@@ -1,12 +1,14 @@
 import GroupRepository from './GroupRepository'
+import Converter from './Converter'
 
 export default class {
   constructor(repo) {
-    this.repo = repo || new GroupRepository
+    this.repo = repo
+    this.converter = new Converter
 
     this.listeners = {
       created: async (tab) =>  {
-        this.data.add(await this.repo.hydrate(tab))
+        this.data.add(await this.converter.convertTab(tab))
         this.repo.save(this.data)
       },
       removed: (tabId) => {
@@ -14,7 +16,7 @@ export default class {
         this.repo.save(this.data)
       },
       updated: async (tabId, changeInfo, tab) => {
-        this.data.update(await this.repo.hydrate(tab))
+        this.data.update(await this.converter.convertTab(tab))
         this.repo.save(this.data)
       },
       activated: async (activeInfo) => {
@@ -37,7 +39,7 @@ export default class {
         const tab = await browser.tabs.create({active: false})
         browser.tabs.hide(tab.id)
 
-        this.data.addNewGroup(await this.repo.hydrate(tab))
+        this.data.addNewGroup(await this.converter.convertTab(tab))
         this.repo.save(this.data)
 
         browser.tabs.onCreated.addListener(this.listeners.created)

@@ -1,7 +1,7 @@
 import Center from '../src/Center'
 
 describe('Center', () => {
-  let center, repo, data = {}
+  let center
 
   beforeEach(() => {
     global.browser = {
@@ -32,21 +32,19 @@ describe('Center', () => {
       }
     }
 
-    repo = {
-      async getAll() {
-        return data
-      },
-      async hydrate(tab) {
-        return tab
-      },
-      save: jest.fn()
-    }
-
-    center = new Center(repo)
+    center = new Center
   })
 
   describe('init', () => {
     test('main', async () => {
+      const data = {}
+      center.repo = {
+        getAll: jest.fn().mockResolvedValueOnce(data)
+      }
+      center.converter = {
+        convertTab: jest.fn()
+      }
+
       await center.init()
 
       expect(center.data).toBe(data)
@@ -67,68 +65,75 @@ describe('Center', () => {
   })
 
   describe('tabs listeners', () => {
+    beforeEach(() => {
+      center.repo = {
+        save: jest.fn()
+      }
+    })
+
     afterEach(() => {
-      expect(repo.save).toBeCalledWith(data)
+      expect(center.repo.save).toBeCalledWith(center.data)
     })
 
     test('created', async () => {
       const tab = {id: 1}
-      data = {
+      center.data = {
         add: jest.fn()
       }
+      center.converter = {
+        convertTab: jest.fn().mockResolvedValueOnce(tab)
+      }
 
-      await center.init()
       await center.listeners.created(tab)
 
-      expect(data.add).toBeCalledWith(tab)
+      expect(center.data.add).toBeCalledWith(tab)
     })
 
-    test('removed', async () => {
+    test('removed', () => {
       const tabId = 1
-      data = {
+      center.data = {
         remove: jest.fn()
       }
 
-      await center.init()
       center.listeners.removed(tabId)
 
-      expect(data.remove).toBeCalledWith(tabId)
+      expect(center.data.remove).toBeCalledWith(tabId)
     })
 
     test('updated', async () => {
       const tab = {id: 1}
-      data = {
+      center.data = {
         update: jest.fn()
       }
+      center.converter = {
+        convertTab: jest.fn().mockResolvedValueOnce(tab)
+      }
 
-      await center.init()
       await center.listeners.updated(tab.id, {}, tab)
 
-      expect(data.update).toBeCalledWith(tab)
+      expect(center.data.update).toBeCalledWith(tab)
     })
 
     test('activated', async () => {
       const activeInfo = {tabId: 1}
-      data = {
+      center.data = {
         activated: jest.fn()
       }
 
-      await center.init()
       await center.listeners.activated(activeInfo)
 
-      expect(data.activated).toBeCalledWith(activeInfo.tabId)
+      expect(center.data.activated).toBeCalledWith(activeInfo.tabId)
     })
 
     test('moved', async () => {
       const tabId = 1
-      data = {
+      center.data = {
         refresh: jest.fn()
       }
 
-      await center.init()
       await center.listeners.moved(tabId)
 
-      expect(data.refresh).toBeCalledWith(tabId)
+      expect(center.data.refresh).toBeCalledWith(tabId)
     })
   })
 })

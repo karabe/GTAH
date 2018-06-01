@@ -1,7 +1,11 @@
 import PopupData from './PopupData'
-import uuidv4 from 'uuid/v4'
+import Converter from './Converter'
 
 export default class {
+  constructor() {
+    this.converter = new Converter
+  }
+
   async getAll() {
     const results = await browser.storage.local.get('data')
 
@@ -12,7 +16,7 @@ export default class {
     const data = new PopupData()
     const tabs = await browser.tabs.query({currentWindow: true})
     for (const tab of tabs) {
-      data.add(await this.hydrate(tab))
+      data.add(await this.converter.convertTab(tab))
     }
 
     return data
@@ -21,22 +25,5 @@ export default class {
   save(data) {
     const plain = JSON.parse(JSON.stringify(data))
     browser.storage.local.set({data: plain})
-  }
-
-  async hydrate(tab) {
-    let uuid = await browser.sessions.getTabValue(tab.id, 'uuid')
-    if (uuid === undefined) {
-      uuid = uuidv4()
-      await browser.sessions.setTabValue(tab.id, 'uuid', uuid)
-    }
-
-    return {
-      id: tab.id,
-      index: tab.index,
-      active: tab.active,
-      title: tab.title,
-      url: tab.url,
-      uuid: uuid
-    }
   }
 }
