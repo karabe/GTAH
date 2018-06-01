@@ -1,8 +1,6 @@
 import { mount } from '@vue/test-utils'
 import MainVue from '../src/Main.vue'
-import GroupRepository from '../src/GroupRepository'
 
-const mockGetAll = jest.fn()
 const mockData = {groups: [], currentIndex: 0}
 jest.mock('../src/GroupRepository', () => {
   return jest.fn().mockImplementation(() => {

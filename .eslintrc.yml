@@ -1,9 +1,13 @@
 env:
   webextensions: true
   es6: true
+  jest/globals: true
+plugins:
+  - 'jest'
 extends:
   - 'eslint:recommended'
   - 'plugin:vue/essential'
+  - 'plugin:jest/recommended'
 parserOptions:
   sourceType: module
   ecmaVersion: 8
@@ -20,3 +24,5 @@ rules:
   semi:
     - error
     - never
+globals:
+  global: false

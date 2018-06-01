@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "web-ext run --source-dir ./addon/",
-    "lint": "yarn run eslint",
+    "lint": "yarn run eslint src test",
     "test": "jest --watch",
     "watch": "webpack --watch",
     "prod": "webpack --mode production"

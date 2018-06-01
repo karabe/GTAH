@@ -55,7 +55,6 @@ describe('GroupRepository', () => {
       repo.save({
         groups: [],
         func() {
-          console.info('func called')
         }
       })
 
