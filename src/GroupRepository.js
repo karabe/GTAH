@@ -1,6 +1,5 @@
 import PopupData from './PopupData'
-import Group from './Group'
-import uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4'
 
 export default class {
   async getAll() {
