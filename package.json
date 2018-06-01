@@ -7,6 +7,8 @@
     "@vue/test-utils": "^1.0.0-beta.16",
     "babel-jest": "^23.0.1",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-vue": "^4.5.0",
     "jest": "^23.0.1",
     "vue-jest": "^2.6.0",
     "web-ext": "^2.6.0",
@@ -15,6 +17,7 @@
   },
   "scripts": {
     "start": "web-ext run --source-dir ./addon/",
+    "lint": "yarn run eslint",
     "test": "jest --watch",
     "watch": "webpack --watch",
     "prod": "webpack --mode production"
