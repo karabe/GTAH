@@ -108,4 +108,25 @@ describe('PopupData', () => {
       expect(data.groups).toHaveLength(0)
     })
   })
+
+  describe('refresh', () => {
+    test('main', () => {
+      const tabs = [
+        {id: 1, index: 2},
+        {id: 2, index: 1},
+        {id: 3, index: 4},
+        {id: 4, index: 6},
+        {id: 5, index: 5},
+        {id: 6, index: 3}
+      ]
+      data.groups[0].tabs = [tabs[0], tabs[1], tabs[3], tabs[5]]
+
+      data.refresh(tabs)
+
+      expect(data.groups[0].tabs[0].id).toBe(2)
+      expect(data.groups[0].tabs[1].id).toBe(1)
+      expect(data.groups[0].tabs[2].id).toBe(6)
+      expect(data.groups[0].tabs[3].id).toBe(4)
+    })
+  })
 })

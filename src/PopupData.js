@@ -76,12 +76,12 @@ export default class {
     this.groups.splice(index, 1)
   }
 
-  async refresh(tabId) {
-    const group = this.groups.find((group) => {
-      return group.exists(tabId)
-    })
-
-    await group.refresh()
-    group.sortByIndex()
+  refresh(tabs) {
+    for (const group of this.groups) {
+      for (const tab of tabs) {
+        this.update(tab)
+      }
+      group.sortByIndex()
+    }
   }
 }

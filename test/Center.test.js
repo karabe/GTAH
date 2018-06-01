@@ -6,6 +6,7 @@ describe('Center', () => {
   beforeEach(() => {
     global.browser = {
       tabs: {
+        query: jest.fn(),
         onCreated: {
           addListener: jest.fn(),
           removeListener: jest.fn()
@@ -127,13 +128,19 @@ describe('Center', () => {
 
     test('moved', async () => {
       const tabId = 1
+      const moveInfo = {windowId: 2}
+      const tabs = [{id: 3}]
+      browser.tabs.query.mockResolvedValueOnce(tabs)
       center.data = {
         refresh: jest.fn()
       }
+      center.converter = {
+        convertTabs: jest.fn().mockResolvedValueOnce(tabs)
+      }
 
-      await center.listeners.moved(tabId)
+      await center.listeners.moved(tabId, moveInfo)
 
-      expect(center.data.refresh).toBeCalledWith(tabId)
+      expect(center.data.refresh).toBeCalledWith(tabs)
     })
   })
 })

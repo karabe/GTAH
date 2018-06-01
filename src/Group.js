@@ -1,4 +1,3 @@
-import GroupRepository from './GroupRepository'
 import Converter from './Converter'
 
 export default class {
@@ -79,17 +78,6 @@ export default class {
     })
 
     await browser.tabs.remove(tabIds)
-  }
-
-  async refresh() {
-    const repo = new GroupRepository()
-
-    for (let [index, tab] of this.tabs.entries()) {
-      tab = await browser.tabs.get(tab.id)
-      tab = await this.converter.convertTab(tab)
-
-      Object.assign(this.tabs[index], tab)
-    }
   }
 
   sortByIndex() {

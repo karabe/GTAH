@@ -17,4 +17,12 @@ export default class {
       uuid: uuid
     }
   }
+
+  async convertTabs(tabs) {
+    const convertedTabs = []
+    for (const tab of tabs) {
+      convertedTabs.push(await this.convertTab(tab))
+    }
+    return convertedTabs
+  }
 }

@@ -23,8 +23,9 @@ export default class {
         await this.data.activated(activeInfo.tabId)
         this.repo.save(this.data)
       },
-      moved: async (tabId) => {
-        await this.data.refresh(tabId)
+      moved: async (tabId, moveInfo) => {
+        const tabs = await browser.tabs.query({windowId: moveInfo.windowId})
+        this.data.refresh(await this.converter.convertTabs(tabs))
         this.repo.save(this.data)
       },
       message: async (message) => {
