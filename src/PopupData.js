@@ -50,9 +50,9 @@ export default class {
     }
   }
 
-  async addNewGroup(tab) {
+  async addNewGroup() {
     const group = new Group()
-    await group.add(tab)
+    await group.addNewTab()
     this.groups.push(group)
   }
 

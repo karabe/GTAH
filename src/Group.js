@@ -85,4 +85,9 @@ export default class {
       return tabA.index - tabB.index
     })
   }
+
+  async addNewTab() {
+    const tab = await browser.tabs.create({active: false})
+    this.add(tab)
+  }
 }

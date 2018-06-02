@@ -1,5 +1,4 @@
 import GroupRepository from './GroupRepository'
-import Converter from './Converter'
 
 export default class {
   constructor() {
@@ -36,10 +35,7 @@ export default class {
       addNewGroup: async () => {
         browser.tabs.onCreated.removeListener(this.listeners.created)
 
-        const tab = await browser.tabs.create({active: false})
-        browser.tabs.hide(tab.id)
-
-        await this.data.addNewGroup(tab)
+        await this.data.addNewGroup()
         this.repo.save(this.data)
 
         browser.tabs.onCreated.addListener(this.listeners.created)
