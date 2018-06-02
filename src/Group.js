@@ -9,8 +9,8 @@ export default class {
     this.converter = new Converter
   }
 
-  add(tab) {
-    this.tabs.push(tab)
+  async add(tab) {
+    this.tabs.push(await this.converter.convertTab(tab))
   }
 
   remove(tabId) {
@@ -27,7 +27,7 @@ export default class {
     return this.tabs.length === 0
   }
 
-  update(tab) {
+  async update(tab) {
     const index = this.tabs.findIndex((ctab) => {
       return ctab.id === tab.id
     })
@@ -35,7 +35,7 @@ export default class {
     if (index === -1) return
 
     if (tab.active) this.activeTabId = tab.id
-    Object.assign(this.tabs[index], tab)
+    Object.assign(this.tabs[index], await this.converter.convertTab(tab))
   }
 
   exists(tabId) {

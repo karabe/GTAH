@@ -1,4 +1,7 @@
 import Center from '../src/Center'
+import PopupData from '../src/PopupData'
+import Converter from '../src/Converter'
+jest.mock('../src/Converter')
 
 describe('Center', () => {
   let center
@@ -7,6 +10,10 @@ describe('Center', () => {
     global.browser = {
       tabs: {
         query: jest.fn(),
+        show: jest.fn(),
+        hide: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
         onCreated: {
           addListener: jest.fn(),
           removeListener: jest.fn()
@@ -42,9 +49,6 @@ describe('Center', () => {
       center.repo = {
         getAll: jest.fn().mockResolvedValueOnce(data)
       }
-      center.converter = {
-        convertTab: jest.fn()
-      }
 
       await center.init()
 
@@ -66,7 +70,34 @@ describe('Center', () => {
   })
 
   describe('tabs listeners', () => {
+    const tab1 = {
+      id: 1,
+      title: 'default',
+      index: 0
+    }
+    const tab2 = {
+      id: 2,
+      index: 1
+    }
+    const tab3 = {
+      id: 3,
+      index: 2
+    }
+
+    beforeAll(() => {
+      Converter.mockImplementation(() => {
+        return {
+          convertTab: (tab) => {
+            return tab
+          }
+        }
+      })
+    })
+
     beforeEach(() => {
+      center.data = new PopupData
+      center.data.groups[0].tabs = [tab1, tab2, tab3]
+
       center.repo = {
         save: jest.fn()
       }
@@ -77,70 +108,52 @@ describe('Center', () => {
     })
 
     test('created', async () => {
-      const tab = {id: 1}
-      center.data = {
-        add: jest.fn()
-      }
-      center.converter = {
-        convertTab: jest.fn().mockResolvedValueOnce(tab)
-      }
+      const tab = {id: 999}
 
       await center.listeners.created(tab)
 
-      expect(center.data.add).toBeCalledWith(tab)
+      expect(center.data.current.tabs).toHaveLength(4)
     })
 
     test('removed', () => {
-      const tabId = 1
-      center.data = {
-        remove: jest.fn()
-      }
+      center.listeners.removed(tab1.id)
 
-      center.listeners.removed(tabId)
-
-      expect(center.data.remove).toBeCalledWith(tabId)
+      expect(center.data.current.tabs).toHaveLength(2)
     })
 
     test('updated', async () => {
-      const tab = {id: 1}
-      center.data = {
-        update: jest.fn()
-      }
-      center.converter = {
-        convertTab: jest.fn().mockResolvedValueOnce(tab)
-      }
+      const tab = {id: 1, title: 'test'}
 
       await center.listeners.updated(tab.id, {}, tab)
 
-      expect(center.data.update).toBeCalledWith(tab)
+      expect(center.data.current.tabs[0].title).toBe(tab.title)
     })
 
     test('activated', async () => {
-      const activeInfo = {tabId: 1}
-      center.data = {
-        activated: jest.fn()
-      }
+      const activeInfo = {tabId: tab2.id}
 
       await center.listeners.activated(activeInfo)
 
-      expect(center.data.activated).toBeCalledWith(activeInfo.tabId)
+      expect(center.data.current.activeTabId).toBe(tab2.id)
     })
 
     test('moved', async () => {
-      const tabId = 1
       const moveInfo = {windowId: 2}
-      const tabs = [{id: 3}]
+      const tabs = [
+        {id: 3, index: 1},
+        {id: 1, index: 2},
+        {id: 2, index: 4},
+        {id: 4, index: 0},
+        {id: 5, index: 3}
+      ]
       browser.tabs.query.mockResolvedValueOnce(tabs)
-      center.data = {
-        refresh: jest.fn()
-      }
-      center.converter = {
-        convertTabs: jest.fn().mockResolvedValueOnce(tabs)
-      }
 
-      await center.listeners.moved(tabId, moveInfo)
+      await center.listeners.moved(null, moveInfo)
 
-      expect(center.data.refresh).toBeCalledWith(tabs)
+      expect(browser.tabs.query).toBeCalledWith({windowId: moveInfo.windowId})
+      expect(center.data.current.tabs[0].id).toBe(3)
+      expect(center.data.current.tabs[1].id).toBe(1)
+      expect(center.data.current.tabs[2].id).toBe(2)
     })
   })
 })

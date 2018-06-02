@@ -17,8 +17,8 @@ export default class {
     return this.groups[this.currentIndex]
   }
 
-  add(tab) {
-    this.current.add(tab)
+  async add(tab) {
+    await this.current.add(tab)
   }
 
   remove(tabId) {
@@ -29,10 +29,10 @@ export default class {
     }
   }
 
-  update(tab) {
-    this.groups.forEach((group) => {
-      group.update(tab)
-    })
+  async update(tab) {
+    for (const group of this.groups) {
+      await group.update(tab)
+    }
   }
 
   async activated(tabId) {
@@ -50,9 +50,9 @@ export default class {
     }
   }
 
-  addNewGroup(tab) {
+  async addNewGroup(tab) {
     const group = new Group()
-    group.add(tab)
+    await group.add(tab)
     this.groups.push(group)
   }
 
@@ -76,10 +76,10 @@ export default class {
     this.groups.splice(index, 1)
   }
 
-  refresh(tabs) {
+  async refresh(tabs) {
     for (const group of this.groups) {
       for (const tab of tabs) {
-        this.update(tab)
+        await this.update(tab)
       }
       group.sortByIndex()
     }
