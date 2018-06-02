@@ -1,5 +1,6 @@
 import Center from '../src/Center'
 import PopupData from '../src/PopupData'
+import Group from '../src/Group'
 import Converter from '../src/Converter'
 jest.mock('../src/Converter')
 
@@ -12,6 +13,7 @@ describe('Center', () => {
         query: jest.fn(),
         show: jest.fn(),
         hide: jest.fn(),
+        create: jest.fn(),
         update: jest.fn(),
         remove: jest.fn(),
         onCreated: {
@@ -154,6 +156,45 @@ describe('Center', () => {
       expect(center.data.current.tabs[0].id).toBe(3)
       expect(center.data.current.tabs[1].id).toBe(1)
       expect(center.data.current.tabs[2].id).toBe(2)
+    })
+
+    describe('message', () => {
+      test('addNewGroup', async () => {
+        const tab = {id :999}
+        browser.tabs.create.mockResolvedValueOnce(tab)
+
+        await center.listeners.message({method: 'addNewGroup'})
+
+        expect(center.data.groups).toHaveLength(2)
+      })
+
+      test('changeGroup', async () => {
+        const tab = {id: 999}
+        const group = new Group
+        group.tabs.push(tab)
+        center.data.groups.push(group)
+
+        await center.listeners.message({method: 'changeGroup', args: [1]})
+
+        expect(center.data.currentIndex).toBe(1)
+      })
+
+      test('updateTitle', async () => {
+        await center.listeners.message({method: 'updateTitle', args: [0, 'Test']})
+
+        expect(center.data.current.title).toBe('Test')
+      })
+
+      test('deleteGroup', async () => {
+        const tab = {id: 999}
+        const group = new Group
+        group.tabs.push(tab)
+        center.data.groups.push(group)
+
+        await center.listeners.message({method: 'deleteGroup', args: [1]})
+
+        expect(center.data.groups).toHaveLength(1)
+      })
     })
   })
 })

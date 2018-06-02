@@ -52,7 +52,7 @@ export default class {
 
         browser.tabs.onActivated.addListener(this.listeners.activated)
       },
-      updateTitle: (index, title) => {
+      updateTitle: async (index, title) => {
         this.data.updateTitle(index, title)
         this.repo.save(this.data)
       },
