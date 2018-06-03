@@ -88,4 +88,14 @@ export default class {
       group.sortByIndex()
     }
   }
+
+  async moveToAnotherGroup(tabId, index) {
+    const group = this.groups.find((group) => {
+      return group.exists(tabId)
+    })
+
+    const tab = group.splice(tabId)
+    await this.groups[index].add(tab)
+    await this.groups[index].hide()
+  }
 }

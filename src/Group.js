@@ -90,4 +90,13 @@ export default class {
     const tab = await browser.tabs.create({active: false})
     this.add(tab)
   }
+
+  splice(tabId) {
+    const index = this.tabs.findIndex((tab) => {
+      return tab.id === tabId
+    })
+
+    const tabs = this.tabs.splice(index, 1)
+    return tabs[0]
+  }
 }

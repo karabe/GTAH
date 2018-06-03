@@ -59,6 +59,10 @@ export default class {
         this.repo.save(this.data)
 
         browser.tabs.onRemoved.addListener(this.listeners.removed)
+      },
+      moveToAnotherGroup: async (tabId, index) => {
+        await this.data.moveToAnotherGroup(tabId, index)
+        this.repo.save(this.data)
       }
     }
   }

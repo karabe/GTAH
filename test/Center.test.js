@@ -209,6 +209,23 @@ describe('Center', () => {
           expect(center.data.currentIndex).toBe(0)
         })
       })
+
+      describe('moveToAnotherGroup', () => {
+        beforeEach(() => {
+          const tab = {id: 999}
+          const group = new Group
+          group.tabs.push(tab)
+          center.data.groups.push(group)
+        })
+
+        test('main', async () => {
+          await center.listeners.message({method: 'moveToAnotherGroup', args: [tab1.id, 1]})
+
+          expect(browser.tabs.hide).toBeCalledWith([999, 1])
+          expect(center.data.groups[0].tabs).toHaveLength(2)
+          expect(center.data.groups[1].tabs).toHaveLength(2)
+        })
+      })
     })
   })
 })
