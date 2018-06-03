@@ -8,8 +8,9 @@ export default class {
       })
       this.currentIndex = data.currentIndex
     } else {
-      this.groups = [new Group]
+      this.groups = []
       this.currentIndex = 0
+      this.addNewGroup(false)
     }
   }
 
@@ -50,9 +51,11 @@ export default class {
     }
   }
 
-  async addNewGroup() {
+  async addNewGroup(createNewTab = true) {
     const group = new Group()
-    await group.addNewTab()
+    if (createNewTab) {
+      await group.addNewTab()
+    }
     this.groups.push(group)
   }
 
