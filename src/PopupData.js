@@ -74,6 +74,10 @@ export default class {
   async deleteGroup(index) {
     await this.groups[index].delete()
     this.groups.splice(index, 1)
+
+    if (index < this.currentIndex) {
+      this.currentIndex--
+    }
   }
 
   async refresh(tabs) {

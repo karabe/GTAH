@@ -186,15 +186,28 @@ describe('Center', () => {
         expect(center.data.current.title).toBe('Test')
       })
 
-      test('deleteGroup', async () => {
-        const tab = {id: 999}
-        const group = new Group
-        group.tabs.push(tab)
-        center.data.groups.push(group)
+      describe('deleteGroup', () => {
+        beforeEach(() => {
+          const tab = {id: 999}
+          const group = new Group
+          group.tabs.push(tab)
+          center.data.groups.push(group)
+        })
 
-        await center.listeners.message({method: 'deleteGroup', args: [1]})
+        test('main', async () => {
+          await center.listeners.message({method: 'deleteGroup', args: [1]})
 
-        expect(center.data.groups).toHaveLength(1)
+          expect(center.data.groups).toHaveLength(1)
+        })
+
+        test('need change index', async () => {
+          center.data.currentIndex = 1
+
+          await center.listeners.message({method: 'deleteGroup', args: [0]})
+
+          expect(center.data.groups).toHaveLength(1)
+          expect(center.data.currentIndex).toBe(0)
+        })
       })
     })
   })
