@@ -43,22 +43,4 @@ describe('Converter', () => {
       expect(browser.sessions.setTabValue).toBeCalledWith(1, 'uuid', converted.uuid)
     })
   })
-
-  describe('convertTabs', () => {
-    test('main', async () => {
-      const uuids = [
-        '51c1af0a-f9ff-4ae4-a042-a40667150567',
-        '51c1af0a-f9ff-4ae4-a042-a40667150568'
-      ]
-      browser.sessions.getTabValue
-        .mockReturnValueOnce(uuids[0])
-        .mockReturnValueOnce(uuids[1])
-      const tabs = [{id: 1}, {id: 2}]
-
-      const converted = await converter.convertTabs(tabs)
-
-      expect(converted[0].uuid).toBe(uuids[0])
-      expect(converted[1].uuid).toBe(uuids[1])
-    })
-  })
 })
