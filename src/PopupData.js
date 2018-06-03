@@ -25,7 +25,7 @@ export default class {
     this.current.remove(tabId)
 
     if (this.current.isEmpty()) {
-      this.groups.splice(this.currentIndex, 1)
+      this.deleteGroup(this.currentIndex)
     }
   }
 
