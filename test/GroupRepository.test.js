@@ -38,8 +38,8 @@ describe('GroupRepository', () => {
 
     test('data not exists', async () => {
       const tab = {id: 1}
-      browser.storage.local.get.mockReturnValueOnce({})
-      browser.tabs.query.mockReturnValueOnce([tab])
+      browser.storage.local.get.mockResolvedValueOnce({})
+      browser.tabs.query.mockResolvedValueOnce([tab])
       repo.converter = {
         convertTab: jest.fn().mockResolvedValueOnce(tab)
       }
@@ -50,6 +50,7 @@ describe('GroupRepository', () => {
       expect(repo.converter.convertTab).toBeCalledWith(tab)
       expect(data).toBeInstanceOf(PopupData)
       expect(data.groups).toHaveLength(1)
+      expect(data.groups[0].tabs[0].id).toBe(1)
     })
   })
 

@@ -16,7 +16,7 @@ export default class {
     const data = new PopupData()
     const tabs = await browser.tabs.query({currentWindow: true})
     for (const tab of tabs) {
-      data.add(await this.converter.convertTab(tab))
+      await data.add(await this.converter.convertTab(tab))
     }
 
     return data

@@ -49,11 +49,13 @@ describe('Center', () => {
     test('main', async () => {
       const data = {}
       center.repo = {
-        getAll: jest.fn().mockResolvedValueOnce(data)
+        getAll: jest.fn().mockResolvedValueOnce(data),
+        save: jest.fn()
       }
 
       await center.init()
 
+      expect(center.repo.save).toBeCalledWith(center.data)
       expect(center.data).toBe(data)
     })
   })

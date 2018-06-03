@@ -69,6 +69,7 @@ export default class {
 
   async init() {
     this.data = await this.repo.getAll()
+    this.repo.save(this.data)
   }
 
   addListeners() {
