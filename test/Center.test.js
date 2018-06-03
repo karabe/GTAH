@@ -165,6 +165,7 @@ describe('Center', () => {
 
         await center.listeners.message({method: 'addNewGroup'})
 
+        expect(browser.tabs.hide).toBeCalledWith(999)
         expect(center.data.groups).toHaveLength(2)
         expect(center.data.groups[1].tabs[0]).toBe(tab)
       })

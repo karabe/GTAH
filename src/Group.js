@@ -88,7 +88,8 @@ export default class {
 
   async addNewTab() {
     const tab = await browser.tabs.create({active: false})
-    this.add(tab)
+    await browser.tabs.hide(tab.id)
+    await this.add(tab)
   }
 
   splice(tabId) {
