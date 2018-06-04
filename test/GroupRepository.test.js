@@ -28,7 +28,9 @@ describe('GroupRepository', () => {
     test('data exists', async () => {
       browser.storage.local.get.mockReturnValueOnce({
         data: {
-          groups: [],
+          groups: [{
+            title: 'Test'
+          }],
           currentIndex: 0
         }
       })
