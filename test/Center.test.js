@@ -149,12 +149,28 @@ describe('Center', () => {
       expect(center.data.current.tabs[0].title).toBe(tab.title)
     })
 
-    test('activated', async () => {
-      const activeInfo = {tabId: tab2.id}
+    describe('activated', () => {
+      test('main', async () => {
+        const activeInfo = {tabId: tab2.id}
 
-      await center.listeners.activated(activeInfo)
+        await center.listeners.activated(activeInfo)
 
-      expect(center.data.current.activeTabId).toBe(tab2.id)
+        expect(center.data.current.activeTabId).toBe(tab2.id)
+      })
+
+      test('activate another group', async () => {
+        const tab = {id: 999}
+        const group = new Group
+        group.tabs.push(tab)
+        center.data.groups.push(group)
+        const activeInfo = {tabId: tab.id}
+
+        await center.listeners.activated(activeInfo)
+
+        expect(browser.tabs.show).toBeCalledWith([tab.id])
+        expect(center.data.currentIndex).toBe(1)
+        expect(center.data.current.activeTabId).toBe(tab.id)
+      })
     })
 
     test('moved', async () => {
