@@ -9,8 +9,8 @@ export default class {
         await this.data.add(tab)
         this.repo.save(this.data)
       },
-      removed: (tabId) => {
-        this.data.remove(tabId)
+      removed: async (tabId) => {
+        await this.data.remove(tabId)
         this.repo.save(this.data)
       },
       updated: async (tabId, changeInfo, tab) => {

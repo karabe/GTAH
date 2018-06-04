@@ -120,16 +120,24 @@ describe('Center', () => {
     })
 
     describe('removed', () => {
-      test('id exists', () => {
-        center.listeners.removed(tab1.id)
+      test('id exists', async () => {
+        await center.listeners.removed(tab1.id)
 
         expect(center.data.current.tabs).toHaveLength(2)
       })
 
-      test('id not exists', () => {
-        center.listeners.removed(999)
+      test('id not exists', async () => {
+        await center.listeners.removed(999)
 
         expect(center.data.current.tabs).toHaveLength(3)
+      })
+
+      test('When the group of deleted tab becomes empty', async () => {
+        await center.listeners.removed(tab1.id)
+        await center.listeners.removed(tab2.id)
+        await center.listeners.removed(tab3.id)
+
+        expect(center.data.groups).toHaveLength(0)
       })
     })
 

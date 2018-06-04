@@ -22,11 +22,11 @@ export default class {
     await this.current.add(tab)
   }
 
-  remove(tabId) {
+  async remove(tabId) {
     this.current.remove(tabId)
 
     if (this.current.isEmpty()) {
-      this.deleteGroup(this.currentIndex)
+      await this.deleteGroup(this.currentIndex)
     }
   }
 
