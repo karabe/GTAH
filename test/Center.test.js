@@ -119,10 +119,18 @@ describe('Center', () => {
       expect(center.data.current.tabs).toHaveLength(4)
     })
 
-    test('removed', () => {
-      center.listeners.removed(tab1.id)
+    describe('removed', () => {
+      test('id exists', () => {
+        center.listeners.removed(tab1.id)
 
-      expect(center.data.current.tabs).toHaveLength(2)
+        expect(center.data.current.tabs).toHaveLength(2)
+      })
+
+      test('id not exists', () => {
+        center.listeners.removed(999)
+
+        expect(center.data.current.tabs).toHaveLength(3)
+      })
     })
 
     test('updated', async () => {
