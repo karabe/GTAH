@@ -78,5 +78,17 @@ describe('MainVue', () => {
 
       expect(wrapper.vm.data).toBe(changes.data.newValue)
     })
+
+    test('changed unrelated data', () => {
+      const changes = {
+        wtf: {
+          newValue: {}
+        }
+      }
+
+      wrapper.vm.changed(changes)
+
+      expect(wrapper.vm.data).not.toBe(changes)
+    })
   })
 })
