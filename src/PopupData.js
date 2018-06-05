@@ -37,15 +37,16 @@ export default class {
   }
 
   async activated(tabId) {
-    for (const [index, group] of this.groups.entries()) {
-      if (!group.exists(tabId)) continue
+    const index = this.groups.findIndex((group) => {
+      return group.exists(tabId)
+    })
+    const group = this.groups[index]
 
-      group.activeTabId = tabId
+    group.activeTabId = tabId
 
-      if (this.currentIndex !== index) {
-        this.currentIndex = index
-        await group.show()
-      }
+    if (this.currentIndex !== index) {
+      this.currentIndex = index
+      await group.show()
     }
   }
 
