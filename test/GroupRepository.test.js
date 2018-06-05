@@ -1,5 +1,6 @@
 import GroupRepository from '../src/GroupRepository'
 import PopupData from '../src/PopupData'
+import Group from '../src/Group'
 
 describe('GroupRepository', () => {
   let repo
@@ -18,6 +19,9 @@ describe('GroupRepository', () => {
       sessions: {
         getTabValue: jest.fn(),
         setTabValue: jest.fn()
+      },
+      menus: {
+        create: jest.fn()
       }
     }
 
@@ -53,6 +57,12 @@ describe('GroupRepository', () => {
       expect(data).toBeInstanceOf(PopupData)
       expect(data.groups).toHaveLength(1)
       expect(data.groups[0].tabs[0].id).toBe(1)
+      expect(browser.menus.create).toBeCalledWith({
+        contexts: ['tab'],
+        parentId: Group.parentId,
+        id: data.groups[0].uuid,
+        title: data.groups[0].title
+      })
     })
   })
 

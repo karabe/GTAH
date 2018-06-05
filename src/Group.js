@@ -1,10 +1,20 @@
 import Converter from './Converter'
+import uuidv4 from 'uuid/v4'
 
 export default class {
+  static get parentId() {
+    return 'moveToAnotherGroup'
+  }
+
+  static get parentTitle() {
+    return 'Move to another group'
+  }
+
   constructor(group = {}) {
     this.title = group.title || 'Default'
     this.tabs = group.tabs || []
     this.activeTabId = group.activeTabId || null
+    this.uuid = uuidv4()
 
     this.converter = new Converter
   }

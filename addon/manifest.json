@@ -24,6 +24,7 @@
   },
 
   "permissions": [
+    "menus",
     "sessions",
     "storage",
     "tabs",

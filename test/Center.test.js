@@ -39,6 +39,11 @@ describe('Center', () => {
         onMessage: {
           addListener: jest.fn()
         }
+      },
+      menus: {
+        create: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn()
       }
     }
 
@@ -57,6 +62,11 @@ describe('Center', () => {
 
       expect(center.repo.save).toBeCalledWith(center.data)
       expect(center.data).toBe(data)
+      expect(browser.menus.create).toBeCalledWith({
+        contexts: ['tab'],
+        id: Group.parentId,
+        title: Group.parentTitle
+      })
     })
   })
 
@@ -133,11 +143,14 @@ describe('Center', () => {
       })
 
       test('When the group of deleted tab becomes empty', async () => {
+        const uuid = center.data.groups[0].uuid
+
         await center.listeners.removed(tab1.id)
         await center.listeners.removed(tab2.id)
         await center.listeners.removed(tab3.id)
 
         expect(center.data.groups).toHaveLength(0)
+        expect(browser.menus.remove).toBeCalledWith(uuid)
       })
     })
 
@@ -202,6 +215,12 @@ describe('Center', () => {
         expect(browser.tabs.hide).toBeCalledWith(999)
         expect(center.data.groups).toHaveLength(2)
         expect(center.data.groups[1].tabs[0]).toBe(tab)
+        expect(browser.menus.create).toBeCalledWith({
+          contexts: ['tab'],
+          id: center.data.groups[1].uuid,
+          title: center.data.groups[1].title,
+          parentId: Group.parentId
+        })
       })
 
       test('changeGroup', async () => {
@@ -219,6 +238,7 @@ describe('Center', () => {
         await center.listeners.message({method: 'updateTitle', args: [0, 'Test']})
 
         expect(center.data.current.title).toBe('Test')
+        expect(browser.menus.update).toBeCalledWith(center.data.current.uuid , {title: 'Test'})
       })
 
       describe('deleteGroup', () => {
@@ -230,18 +250,23 @@ describe('Center', () => {
         })
 
         test('main', async () => {
+          const uuid = center.data.groups[1].uuid
+
           await center.listeners.message({method: 'deleteGroup', args: [1]})
 
           expect(center.data.groups).toHaveLength(1)
+          expect(browser.menus.remove).toBeCalledWith(uuid)
         })
 
         test('need change index', async () => {
+          const uuid = center.data.groups[0].uuid
           center.data.currentIndex = 1
 
           await center.listeners.message({method: 'deleteGroup', args: [0]})
 
           expect(center.data.groups).toHaveLength(1)
           expect(center.data.currentIndex).toBe(0)
+          expect(browser.menus.remove).toBeCalledWith(uuid)
         })
       })
 

@@ -1,4 +1,5 @@
 import GroupRepository from './GroupRepository'
+import Group from './Group'
 
 export default class {
   constructor() {
@@ -49,7 +50,7 @@ export default class {
         browser.tabs.onActivated.addListener(this.listeners.activated)
       },
       updateTitle: async (index, title) => {
-        this.data.updateTitle(index, title)
+        await this.data.updateTitle(index, title)
         this.repo.save(this.data)
       },
       deleteGroup: async (index) => {
@@ -68,6 +69,12 @@ export default class {
   }
 
   async init() {
+    await browser.menus.create({
+      contexts: ['tab'],
+      id: Group.parentId,
+      title: Group.parentTitle
+    })
+
     this.data = await this.repo.getAll()
     this.repo.save(this.data)
   }

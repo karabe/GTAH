@@ -57,6 +57,13 @@ export default class {
       await group.addNewTab()
     }
     this.groups.push(group)
+
+    await browser.menus.create({
+      contexts: ['tab'],
+      parentId: Group.parentId,
+      id: group.uuid,
+      title: group.title
+    })
   }
 
   isActive(index) {
@@ -70,12 +77,15 @@ export default class {
     this.currentIndex = index
   }
 
-  updateTitle(index, title) {
+  async updateTitle(index, title) {
     this.groups[index].updateTitle(title)
+
+    await browser.menus.update(this.groups[index].uuid, {title: title})
   }
 
   async deleteGroup(index) {
     await this.groups[index].delete()
+    await browser.menus.remove(this.groups[index].uuid)
     this.groups.splice(index, 1)
 
     if (index < this.currentIndex) {
