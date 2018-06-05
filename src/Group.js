@@ -44,7 +44,6 @@ export default class {
 
     if (index === -1) return
 
-    if (tab.active) this.activeTabId = tab.id
     Object.assign(this.tabs[index], await this.converter.convertTab(tab))
   }
 
