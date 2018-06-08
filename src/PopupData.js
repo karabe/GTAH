@@ -101,13 +101,16 @@ export default class {
     }
   }
 
-  async moveToAnotherGroup(tabId, index) {
-    const group = this.groups.find((group) => {
-      return group.exists(tabId)
+  async moveToAnotherGroup(tab, uuid) {
+    const from = this.groups.find((group) => {
+      return group.exists(tab.id)
+    })
+    const to = this.groups.find((group) => {
+      return group.uuid === uuid
     })
 
-    const tab = group.splice(tabId)
-    await this.groups[index].add(tab)
-    await this.groups[index].hide()
+    from.remove(tab.id)
+    await to.add(tab)
+    await to.hide()
   }
 }

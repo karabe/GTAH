@@ -43,7 +43,10 @@ describe('Center', () => {
       menus: {
         create: jest.fn(),
         update: jest.fn(),
-        remove: jest.fn()
+        remove: jest.fn(),
+        onClicked: {
+          addListener: jest.fn()
+        }
       }
     }
 
@@ -80,6 +83,7 @@ describe('Center', () => {
       expect(browser.tabs.onActivated.addListener).toBeCalledWith(center.listeners.activated)
       expect(browser.tabs.onMoved.addListener).toBeCalledWith(center.listeners.moved)
       expect(browser.runtime.onMessage.addListener).toBeCalledWith(center.listeners.message)
+      expect(browser.menus.onClicked.addListener).toBeCalledWith(center.listeners.menuClicked)
     })
   })
 
@@ -101,7 +105,7 @@ describe('Center', () => {
     beforeAll(() => {
       Converter.mockImplementation(() => {
         return {
-          convertTab: (tab) => {
+          async convertTab(tab) {
             return tab
           }
         }
@@ -205,6 +209,21 @@ describe('Center', () => {
       expect(center.data.current.tabs[2].id).toBe(2)
     })
 
+    describe('menuClicked', () => {
+      test('tab is not active', async () => {
+        const group = new Group
+        const info = {parentMenuItemId: Group.parentId, menuItemId: group.uuid}
+        const tab = tab1
+        tab.active = false
+        center.data.groups.push(group)
+
+        await center.listeners.menuClicked(info, tab)
+
+        expect(center.data.groups[0].tabs).toHaveLength(2)
+        expect(center.data.groups[1].tabs[0]).toBe(tab1)
+      })
+    })
+
     describe('message', () => {
       test('addNewGroup', async () => {
         const tab = {id :999}
@@ -267,23 +286,6 @@ describe('Center', () => {
           expect(center.data.groups).toHaveLength(1)
           expect(center.data.currentIndex).toBe(0)
           expect(browser.menus.remove).toBeCalledWith(uuid)
-        })
-      })
-
-      describe('moveToAnotherGroup', () => {
-        beforeEach(() => {
-          const tab = {id: 999}
-          const group = new Group
-          group.tabs.push(tab)
-          center.data.groups.push(group)
-        })
-
-        test('main', async () => {
-          await center.listeners.message({method: 'moveToAnotherGroup', args: [tab1.id, 1]})
-
-          expect(browser.tabs.hide).toBeCalledWith([999, 1])
-          expect(center.data.groups[0].tabs).toHaveLength(2)
-          expect(center.data.groups[1].tabs).toHaveLength(2)
         })
       })
     })

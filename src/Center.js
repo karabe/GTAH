@@ -29,6 +29,10 @@ export default class {
       },
       message: async (message) => {
         await this.methods[message.method].apply(undefined, message.args || [])
+      },
+      menuClicked: async (info, tab) => {
+        this.data.moveToAnotherGroup(tab, info.menuItemId)
+        this.repo.save(this.data)
       }
     }
 
@@ -60,10 +64,6 @@ export default class {
         this.repo.save(this.data)
 
         browser.tabs.onRemoved.addListener(this.listeners.removed)
-      },
-      moveToAnotherGroup: async (tabId, index) => {
-        await this.data.moveToAnotherGroup(tabId, index)
-        this.repo.save(this.data)
       }
     }
   }
@@ -87,5 +87,7 @@ export default class {
     browser.tabs.onMoved.addListener(this.listeners.moved)
 
     browser.runtime.onMessage.addListener(this.listeners.message)
+
+    browser.menus.onClicked.addListener(this.listeners.menuClicked)
   }
 }
