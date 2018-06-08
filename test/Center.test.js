@@ -221,6 +221,7 @@ describe('Center', () => {
 
         expect(center.data.groups[0].tabs).toHaveLength(2)
         expect(center.data.groups[1].tabs[0]).toBe(tab1)
+        expect(browser.tabs.hide).toBeCalledWith([tab.id])
       })
     })
 
